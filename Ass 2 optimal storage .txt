@@ -1,0 +1,97 @@
+/**************************************************************************************** 
+
+Title :  Write a program to solve optimal storage on tapes problem
+             using Greedy approach.
+Name : kalpesh s. sonawane
+Roll no : 55
+ 
+******************************************************************************************/
+
+#include<bits/stdc++.h>
+using namespace std;
+#define max 1000
+
+int RT(int array[],int no)//Retrival Time...
+{
+	int time=0;
+	for(int i=0;i<no;i++)
+	{
+		for(int j=0;j<i;j++)
+		{
+			time=time+array[j];
+		}
+	}
+	return time;
+	
+}
+
+int search(int array[], int no, int value)
+{
+    for (int i=0; i<no; i++)
+        if (array[i] == value)
+         return i;
+    return -1;
+}
+
+int main()
+{
+    int programs[max];//Array program to store length oh programs
+    int clone[max];//Array clone to replicate elements of array programs
+	int no;//variable to store number of programs
+	int retrival_time;//Variable to calculate retrival time of programs on tape
+	
+	cout<<"Enter count of programs you want to store on tape : ";
+	cin>>no;
+	
+	for(int i=0;i<no;i++)//Loop to accept length of program from user.../
+	{
+		cout<<"Length of program "<<i+1<<" is: ";
+		cin>>programs[i];
+		clone[i]=programs[i];
+	}
+	retrival_time=RT(programs,no);
+	cout<<"Retival time for user input program is : "<<retrival_time<<endl;
+	
+	//Sorting array to get length of program in assending order for greedy approach.....
+	for(int i=0;i<no;i++)
+	{
+		for(int j=0;j<no-1-i;j++)
+		{
+			if(clone[j]>clone[j+1])
+			{
+				int temp = clone[j];
+				clone[j]=clone[j+1];
+				clone[j+1]=temp;
+			}
+		}
+	}
+	
+	//Displaying optimal ordering of Length....
+	cout<<"\nOptimal ordering of programs on tape using greedy algorithm is as follows : \n";
+	for(int j=0;j<no;j++)
+	{
+		int index=search(programs,no,clone[j]);
+		cout<<"Program No : "<<index+1<<" & Length : "<<clone[j]<<endl;
+	}
+	retrival_time=RT(clone,no);
+	cout<<"Optimal Retival time is : "<<retrival_time<<endl;
+    return 0;
+}
+
+/*****************OUTPUT*******************************/
+
+Enter count of programs you want to store on tape : 3
+Length of program 1 is: 5
+Length of program 2 is: 3
+Length of program 3 is: 10
+Retival time for user input program is : 13
+
+Optimal ordering of programs on tape using greedy algorithm is as follows :
+Program No : 2 & Length : 3
+Program No : 1 & Length : 5
+Program No : 3 & Length : 10
+Optimal Retival time is : 11
+
+--------------------------------
+Process exited after 17.89 seconds with return value 0
+Press any key to continue . . .

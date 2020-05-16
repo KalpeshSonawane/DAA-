@@ -1,0 +1,178 @@
+/**************************************************************************************** 
+
+Title : Write a program to find Maximum and Minimum element in an array
+           using Divide and Conquer strategy and verify the time complexity.
+Name : kalpesh s. sonawane
+Roll no : 55
+ 
+******************************************************************************************/
+
+
+#include<stdio.h>
+
+//We are using structure datatype as we have to return two values from out function findMinMax()
+struct output 
+{
+  int minimum;
+  int maximum;
+};  
+ 
+void DisplayArray(int array[], int start, int end)
+{
+    int i;
+    
+    printf("\n");
+    for (i=start; i < end; i++)
+    {
+        printf("%d ", array[i]);
+	}
+    printf("\n");
+}
+ 
+ 
+//findMinMax() function to find minimum and maximum of given array
+struct output findMinMax(int array[], int start, int end)
+{
+	struct output minmax;
+ 	struct output left;
+  	struct output right;       
+  	int mid;
+  	
+  	printf("\n---------------------------Debuging---------------------------------");
+  	DisplayArray(array,start,end+1);
+	printf("\n Currrent Minimum : %d and Maximum : %d", minmax.minimum,minmax.maximum);
+	printf("\n------------------------------------------------------------");
+
+//------------------------------Check 1------------------------------------------------    
+  	// below condition is use to check if array contains only one element
+  	if (start == end) 
+  	{
+    	minmax.maximum = array[start];
+    	minmax.minimum = array[start];     
+    	return minmax;
+  	}    
+//---------------------------------------------------------------------------------------
+
+
+//------------------------------Check 2------------------------------------------------   
+  	//Below condition is use to check if array contains only two elements
+  	if (end == start + 1)
+  	{  
+    	if (array[start] > array[end])  
+     	{
+        	minmax.maximum = array[start];
+        	minmax.minimum = array[end];
+     	}  
+    	else
+    	{
+        	minmax.maximum = array[end];
+        	minmax.minimum = array[start];
+     	}  
+     	return minmax;
+ 	}
+//---------------------------------------------------------------------------------------
+
+  
+  	//Below code divides array into two parts recursively 
+  	mid = (start + end)/2;  
+  	left = findMinMax(array, start, mid);
+  	right = findMinMax(array, mid+1, end);  
+   
+  	/* compare minimums of two parts*/
+  	if (left.minimum < right.minimum)
+  	{
+		minmax.minimum = left.minimum;
+	}    
+  	else
+  	{
+		minmax.minimum = right.minimum;
+	}
+         
+ 
+  	/* compare maximums of two parts*/
+  	if (left.maximum > right.maximum)
+  	{
+  		minmax.maximum = left.maximum;	
+	}
+    else
+    {
+    	minmax.maximum = right.maximum;	
+	}
+
+//	printf("\n Currrent Minimum : %d and Maximum : %d", minmax.minimum,minmax.maximum);
+//	printf("\n------------------------------------------------------------");
+	return minmax;
+}
+
+
+int main()
+{
+	printf("This is program for finding minimum and maximum of array using divide and conquer method.... \n");
+	printf("So lets give input to array.... \n");
+	
+	int i,array_size,array[100];
+	int *output;
+	
+	printf("\n\nEnter the size of array:");
+	scanf("%d",&array_size);
+	
+	for(i=0;i<array_size;i++)
+	{
+		printf("\nEnter the %d element: ",i);
+		scanf("%d",&array[i]);
+	}
+	
+	printf("\n Your array is:");
+	DisplayArray(array,0,array_size);
+	
+	struct output minmax = findMinMax(array, 0, array_size-1);
+  	printf("\nFinal Minimum : %d and Maximum : %d", minmax.minimum,minmax.maximum);
+	return 0;
+} 
+
+
+/******************** OUTPUT ******************************
+
+This is program for finding minimum and maximum of array using divide and conquer method....
+So lets give input to array....
+
+
+Enter the size of array:5
+
+Enter the 0 element: 99
+
+Enter the 1 element: 12
+
+Enter the 2 element: 78
+
+Enter the 3 element: 34
+
+Enter the 4 element: 67
+
+ Your array is:
+99 12 78 34 67
+
+---------------------------Debuging---------------------------------
+99 12 78 34 67
+
+------------------------------------------------------------
+---------------------------Debuging---------------------------------
+99 12 78
+
+------------------------------------------------------------
+---------------------------Debuging---------------------------------
+99 12
+
+------------------------------------------------------------
+---------------------------Debuging---------------------------------
+78
+
+------------------------------------------------------------
+---------------------------Debuging---------------------------------
+34 67
+
+------------------------------------------------------------
+Final Minimum : 12 and Maximum : 99
+--------------------------------
+Process exited after 30.25 seconds with return value 0
+Press any key to continue . . .
